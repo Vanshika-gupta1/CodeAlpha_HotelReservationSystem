@@ -1,0 +1,27 @@
+CREATE DATABASE IF NOT EXISTS hotel_db;
+USE hotel_db;
+
+CREATE TABLE IF NOT EXISTS rooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    room_number INT NOT NULL UNIQUE,
+    type ENUM('STANDARD','DELUXE','SUITE') NOT NULL,
+    price_per_night DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    guest_name VARCHAR(50) NOT NULL,
+    room_id INT NOT NULL,
+    check_in DATE NOT NULL,
+    check_out DATE NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    paid BOOLEAN NOT NULL DEFAULT FALSE,
+    transaction_id VARCHAR(20),
+    cancelled BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (room_id) REFERENCES rooms(id)
+);
+
+INSERT INTO rooms (room_number, type, price_per_night) VALUES
+(101,'STANDARD',2000),(102,'STANDARD',2000),(103,'STANDARD',2000),(104,'STANDARD',2000),
+(201,'DELUXE',3500),(202,'DELUXE',3500),(203,'DELUXE',3500),
+(301,'SUITE',6000),(302,'SUITE',6000),(303,'SUITE',6000);
